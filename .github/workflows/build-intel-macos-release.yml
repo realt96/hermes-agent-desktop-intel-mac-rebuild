@@ -105,6 +105,7 @@ jobs:
         working-directory: apps/desktop
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           echo "Building upstream commit $(git rev-parse HEAD)"
@@ -116,6 +117,8 @@ jobs:
           env -u GITHUB_SHA -u GITHUB_REF_NAME npm run dist:mac -- --x64 --publish never
 
       - name: Validate x86_64 packages and write checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
         id: validate
         working-directory: apps/desktop
         run: |
